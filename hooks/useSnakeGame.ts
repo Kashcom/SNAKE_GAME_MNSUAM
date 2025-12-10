@@ -62,7 +62,7 @@ export function useSnakeGame() {
     // Bonus Food Timer
     useEffect(() => {
         if (!bonusFood) return;
-        const timer = setTimeout(() => setBonusFood(null), 5000); // Disappear after 5s
+        const timer = setTimeout(() => setBonusFood(null), 10000); // Disappear after 10s
         return () => clearTimeout(timer);
     }, [bonusFood]);
 
@@ -127,8 +127,8 @@ export function useSnakeGame() {
                 setScore((s) => s + 1);
                 setFood(generateFood(newSnake));
 
-                // 20% chance to spawn bonus food if none exists
-                if (!bonusFood && Math.random() > 0.8) {
+                // 20% chance originally -> Changed to 50% for visibility
+                if (!bonusFood && Math.random() > 0.5) {
                     setBonusFood(generateFood(newSnake));
                 }
 
@@ -137,11 +137,8 @@ export function useSnakeGame() {
                     speedRef.current = Math.max(minSpeed, speedRef.current - 2);
                 }
             } else if (!(bonusFood && newHead.x === bonusFood.x && newHead.y === bonusFood.y)) {
-                // Only pop tail if we DIDN'T eat any food (regular or bonus)
-                // NOTE: Snake usually grows on regular food. Does user want growth on bonus?
-                // Standard snake logic: eat = grow. Let's grow on both.
-                // If we ate bonus food above, we continue. If we ate regular, we continue.
-                // If we ate NEITHER, we pop.
+                // If we ate NEITHER regular NOR bonus food, pop the tail.
+                // Closure captures 'bonusFood' current state (before nulling), so this works correctly.
                 newSnake.pop();
             }
 
