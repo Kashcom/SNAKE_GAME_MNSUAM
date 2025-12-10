@@ -1,0 +1,170 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden;
+}
+
+/* Background Animation - Bluer Shade */
+@keyframes blue-light-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.blue-light-bg {
+  background: linear-gradient(-45deg,
+      #020617,
+      #172554,
+      #1e3a8a,
+      #1e40af);
+  background-size: 400% 400%;
+  animation: blue-light-flow 15s ease infinite;
+}
+
+/* Button Left-to-Right Blue Sweep Animation */
+.btn-animated {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  isolation: isolate;
+  /* Creates a new stacking context */
+}
+
+.btn-animated::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: #3b82f6;
+  /* Blue-500 */
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
+}
+
+.btn-animated:hover::before {
+  width: 100%;
+}
+
+.btn-animated:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.6);
+  border-color: #3b82f6;
+}
+
+.btn-animated>* {
+  position: relative;
+  z-index: 1;
+}
+
+/* Blob Animations for "Moving Light in Parts" */
+@keyframes float-1 {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(30vw, -30vh) scale(1.1);
+  }
+
+  66% {
+    transform: translate(-20vw, 20vh) scale(0.9);
+  }
+}
+
+@keyframes float-2 {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(-30vw, 30vh) scale(1.2);
+  }
+
+  66% {
+    transform: translate(20vw, -20vh) scale(0.8);
+  }
+}
+
+@keyframes float-3 {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(20vw, 20vh) scale(0.9);
+  }
+
+  66% {
+    transform: translate(-30vw, -30vh) scale(1.1);
+  }
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.blob-1 {
+  top: 10%;
+  left: 10%;
+  width: 500px;
+  height: 500px;
+  background: #2563eb;
+  /* Blue-600 */
+  animation: float-1 20s infinite ease-in-out alternate;
+}
+
+.blob-2 {
+  top: 50%;
+  right: 10%;
+  width: 400px;
+  height: 400px;
+  background: #3b82f6;
+  /* Blue-500 */
+  animation: float-2 25s infinite ease-in-out alternate;
+}
+
+.blob-3 {
+  bottom: 10%;
+  left: 30%;
+  width: 300px;
+  height: 300px;
+  background: #60a5fa;
+  /* Blue-400 */
+  animation: float-3 22s infinite ease-in-out alternate;
+}
