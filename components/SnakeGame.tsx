@@ -42,26 +42,27 @@ export default function SnakeGame() {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen blue-light-bg text-zinc-100 p-4 font-sans relative overflow-hidden">
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-red-900 via-zinc-900 to-blue-900 text-zinc-100 p-2 font-sans relative overflow-hidden">
             {/* Background Blobs for "Moving Light in Parts" */}
-            <div className="blob blob-1" />
-            <div className="blob blob-2" />
-            <div className="blob blob-3" />
+            <div className="blob blob-1 mix-blend-overlay" />
+            <div className="blob blob-2 mix-blend-overlay" />
+            <div className="blob blob-3 mix-blend-overlay" />
 
             {/* Header - Hide during game */}
             {gameState !== "PLAYING" && (
                 <div className="mb-6 text-center relative z-10">
-                    <h1 className="text-4xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent mb-2">
+                    <h1 className="text-4xl font-bold bg-gradient-to-r from-red-400 to-blue-400 bg-clip-text text-transparent mb-2">
                         NEON SNAKE
                     </h1>
                     <p className="text-zinc-400">Use Arrow Keys to Move</p>
                 </div>
             )}
 
-            <div className={`relative z-10 flex flex-col items-center justify-center ${gameState === "PLAYING" ? 'w-full h-full fixed inset-0 bg-zinc-950' : ''}`}>
+            <div className={`relative z-10 flex flex-col items-center justify-center w-full h-full`}>
 
-                {/* Score Board - Floating if playing, regular if menu */}
-                <div className={`flex justify-between items-center bg-zinc-900/90 border border-zinc-800 backdrop-blur-md p-4 w-full shadow-lg transition-all z-20 ${gameState === "PLAYING" ? 'absolute top-0 left-0 right-0 border-x-0 rounded-none' : 'max-w-[500px] rounded-t-xl'}`}>
+                {/* Score Board - VISIBLE & NON-OVERLAPPING */}
+                {/* Removed absolute positioning to prevent overlap */}
+                <div className={`flex justify-between items-center bg-zinc-900/90 border border-zinc-800 backdrop-blur-md p-3 w-full shadow-lg transition-all z-20 mb-4 ${gameState === "PLAYING" ? 'max-w-[calc(100vmin-20px)] rounded-xl' : 'max-w-[500px] rounded-t-xl'}`}>
                     <div className="flex items-center gap-2">
                         <span className="text-zinc-400 text-sm font-medium uppercase tracking-wider">Score</span>
                         <span className="text-2xl font-bold text-white">{score}</span>
@@ -96,13 +97,14 @@ export default function SnakeGame() {
                 <div
                     className="relative bg-black shadow-2xl overflow-hidden"
                     style={{
-                        width: gameState === "PLAYING" ? '100vmin' : 'min(90vw, 500px)',
-                        height: gameState === "PLAYING" ? '100vmin' : 'min(90vw, 500px)',
+                        // Dynamic calculation to fit screen minus header height (approx 80px) + padding
+                        width: gameState === "PLAYING" ? 'min(95vw, calc(100vh - 120px))' : 'min(90vw, 500px)',
+                        height: gameState === "PLAYING" ? 'min(95vw, calc(100vh - 120px))' : 'min(90vw, 500px)',
                         display: 'grid',
                         gridTemplateColumns: `repeat(${GRID_SIZE}, 1fr)`,
                         gridTemplateRows: `repeat(${GRID_SIZE}, 1fr)`,
-                        borderRadius: gameState === "PLAYING" ? '0' : undefined,
-                        border: gameState === "PLAYING" ? 'none' : undefined
+                        borderRadius: '0.75rem',
+                        border: '1px solid #333'
                     }}
                 >
                     {/* Grid Background Effect */}
